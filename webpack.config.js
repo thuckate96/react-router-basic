@@ -1,19 +1,30 @@
 var path = require("path");
+var webpack = require("webpack");
 module.exports = {
-  entry: './app/appRe.js',
+  entry: [
+    './app/appRe.js'
+  ],
   output: {
     path: __dirname,
     filename: "./public/bundle.js"
   },
   resolve: {
     alias: {
-      Main: path.resolve(__dirname, "app/components/Main"),
-      HomePage: path.resolve(__dirname, "app/components/HomePage"),
-      Account: path.resolve(__dirname, "app/components/Account"),
+      Home: path.resolve(__dirname, "app/components/Home"),
+      Profile: path.resolve(__dirname, "app/components/Profile"),
+      Login: path.resolve(__dirname, "app/components/Login"),
       Nav: path.resolve(__dirname, "app/components/Nav"),
-      Transaction: path.resolve(__dirname, "app/components/Transaction")
+      Transaction: path.resolve(__dirname, "app/components/Transaction"),
+      LoginForm: path.resolve(__dirname, "app/components/Login/LoginForm")
     }
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env": {
+      NODE_ENV: JSON.stringify("production")
+      }
+     })
+  ],
   module: {
     loaders: [
       {

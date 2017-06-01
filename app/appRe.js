@@ -1,33 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Main from 'Main';
-import Account from 'Account';
-import HomePage from 'HomePage';
+import Home from 'Home';
+import Login from 'Login';
+import Profile from 'Profile';
 import Nav from 'Nav';
 import Transaction from 'Transaction';
-
 import {Route, HashRouter, Switch} from 'react-router-dom';
+var redux = require("redux");
+var {Provider} = require("react-redux");
 
-
-
+var username = (state=null, action) => {
+  switch (action.type) {
+    case 'LOG_IN':
+      return action.username;
+    case 'LOG_OUT':
+      return null;
+    default:
+      return state;
+  }
+}
+var reducer = redux.combineReducers({username});
+var store = redux.createStore(reducer);
+store.dispatch({type: 'LOG_IN', username: 'Vi Van Thuc'});
+var requireLogin = ()=>{
+  console.log("Vi Van Thuc");
+}
 ReactDOM.render(
   <div>
-
-    <HashRouter>
-      <div>
-        <Route path="/" component={Main}/>
-        <Route path="/homepage" component={HomePage}/>
-        <Route path="/account" component={Account}/>
-        <Route path="/transaction" component={Transaction}/>
+    <Provider store={store}>
+      <HashRouter>
+        <div>
+          <Route path="/" component={Home}/>
+          <Route path="/profile" component={Profile}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/transaction" component={Transaction} onEnter={requireLogin} />
       </div>
-    </HashRouter>
+      </HashRouter>
+    </Provider>
   </div>,
   document.getElementById("root")
 )
-
-// "css-loader": "^0.28.1",
-// "foundation-sites": "^6.3.1",
-// "less-loader": "^4.0.3",
-// "script-loader": "^0.7.0",
-// "style-loader": "^0.17.0"
